@@ -2150,3 +2150,12 @@ dialog::backdrop {
     transform: none !important;
   }
 }
+/* A generous hit area keeps the seven scene controls usable on touchscreens. */
+.story-progress {
+  width: min(350px, 100%);
+  gap: 6px;
+}
+.story-progress a {
+  min-height: 44px;
+  min-width: 24px;
+}
