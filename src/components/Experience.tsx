@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import Image from "next/image";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -63,8 +63,8 @@ export default function Experience() {
     [cheese, setCheese] = useState(true),
     [toppings, setToppings] = useState<string[]>(["Salat", "Tomate"]),
     [sauce, setSauce] = useState("BBQ-Stil"),
-    [city, setCity] = useState("Alle");
-  const reduced = useReducedMotion();
+    [city, setCity] = useState("Alle"),
+    [region, setRegion] = useState("Alle");
   const dialog = useRef<HTMLDialogElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
@@ -188,12 +188,7 @@ export default function Experience() {
             <span>GUTER GESCHMACK. KEINE KOMPROMISSE.</span>
             <span>BURGER LOVE, AUSTRIAN SOUL ↗</span>
           </div>
-          <motion.div
-            initial={false}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="hero-title"
-          >
+          <div className="hero-title">
             <h1>
               WIR LEBEN
               <br />
@@ -202,7 +197,7 @@ export default function Experience() {
             <span className="hero-asterisk" aria-hidden="true">
               ✳︎
             </span>
-          </motion.div>
+          </div>
           <div className="hero-copy">
             <span className="eyebrow">DAS IST DEIN MOMENT.</span>
             <p>
@@ -217,13 +212,14 @@ export default function Experience() {
               Standorte finden <ArrowRight size={16} />
             </a>
           </div>
-          <motion.div
+          <div
             className="hero-burger"
-            initial={false}
-            animate={{ opacity: 1, rotate: -7, scale: 1 }}
-            transition={{ duration: 1, delay: 0.15 }}
             onPointerMove={(e) => {
-              if (reduced || e.pointerType !== "mouse") return;
+              if (
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+                e.pointerType !== "mouse"
+              )
+                return;
               const r = e.currentTarget.getBoundingClientRect();
               e.currentTarget.style.setProperty(
                 "--tilt",
@@ -248,7 +244,7 @@ export default function Experience() {
                 />
               </svg>
             </span>
-          </motion.div>
+          </div>
           <a href="#experience" className="round-stamp">
             100%
             <span>
@@ -328,10 +324,7 @@ export default function Experience() {
           </div>
           <div className="product-grid">
             {filterProducts(category).map((p, i) => (
-              <motion.button
-                layout
-                initial={false}
-                animate={{ opacity: 1, y: 0 }}
+              <button
                 className={`product-card tone-${i % 3}`}
                 key={p.id}
                 onClick={() => setProduct(p)}
@@ -344,7 +337,14 @@ export default function Experience() {
                         ? "THE CLASSIC"
                         : "BURGER LOVE"}
                   </span>
-                  <Burger veggie={p.category === "Veggie"} />
+                  <Image
+                    className="burger-art"
+                    src={p.image}
+                    width={640}
+                    height={540}
+                    sizes="(max-width: 600px) 44vw, (max-width: 850px) 43vw, 28vw"
+                    alt="Originale Burgerillustration; keine Abbildung der tatsächlichen Rezeptur"
+                  />
                   <span className="product-add">
                     <Plus size={20} />
                   </span>
@@ -358,7 +358,7 @@ export default function Experience() {
                 </div>
                 <p>{p.description}</p>
                 <span className="price">Preis im Restaurant</span>
-              </motion.button>
+              </button>
             ))}
           </div>
           <p className="data-note">
@@ -633,6 +633,26 @@ export default function Experience() {
                 <br />
                 Burger essen gehen.
               </h3>
+              {locations.length > 0 && (
+                <>
+                  <label htmlFor="region">Region auswählen</label>
+                  <select
+                    id="region"
+                    value={region}
+                    onChange={(e) => {
+                      setRegion(e.target.value);
+                      setCity("Alle");
+                    }}
+                  >
+                    <option>Alle</option>
+                    {Array.from(new Set(locations.map((l) => l.region))).map(
+                      (r) => (
+                        <option key={r}>{r}</option>
+                      ),
+                    )}
+                  </select>
+                </>
+              )}
               <label htmlFor="city">Stadt auswählen</label>
               <select
                 id="city"
@@ -641,20 +661,41 @@ export default function Experience() {
                 onChange={(e) => setCity(e.target.value)}
               >
                 <option>Alle</option>
-                {Array.from(new Set(locations.map((l) => l.city))).map((c) => (
+                {Array.from(
+                  new Set(
+                    locations
+                      .filter((l) => region === "Alle" || l.region === region)
+                      .map((l) => l.city),
+                  ),
+                ).map((c) => (
                   <option key={c}>{c}</option>
                 ))}
               </select>
               {locations.length ? (
                 locations
-                  .filter((l) => city === "Alle" || l.city === city)
+                  .filter(
+                    (l) =>
+                      (city === "Alle" || l.city === city) &&
+                      (region === "Alle" || l.region === region),
+                  )
                   .map((l) => (
-                    <article key={l.id}>
-                      <h4>{l.city}</h4>
-                      <p>{l.address}</p>
-                      <p>{l.hours}</p>
-                      <Out href={l.directionsUrl}>Route öffnen</Out>
-                    </article>
+                    <details className="location-card" key={l.id}>
+                      <summary>
+                        <MapPin size={18} />
+                        <strong>{l.city}</strong>
+                        <span>{l.address}</span>
+                      </summary>
+                      <div>
+                        <p>
+                          {l.address} · {l.region}
+                        </p>
+                        <p>{l.hours}</p>
+                        <Out href={l.directionsUrl}>Route öffnen</Out>
+                        {l.orderUrl && (
+                          <Out href={l.orderUrl}>Hier bestellen</Out>
+                        )}
+                      </div>
+                    </details>
                   ))
               ) : (
                 <p>
