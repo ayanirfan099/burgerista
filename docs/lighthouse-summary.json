@@ -1,0 +1,84 @@
+{
+  "date": "2026-10-27",
+  "sourceCommit": "d320bff",
+  "node": "v24.19.0",
+  "chromium": "154.0.8037.57",
+  "runs": {
+    "mobile": {
+      "lighthouseVersion": "13.5.0",
+      "fetchTime": "2026-10-27T13:21:40.807Z",
+      "scores": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 1667.22975,
+          "unit": "millisecond",
+          "display": "1.7 s"
+        },
+        "largest-contentful-paint": {
+          "value": 2617.4865,
+          "unit": "millisecond",
+          "display": "2.6 s"
+        },
+        "speed-index": {
+          "value": 1667.22975,
+          "unit": "millisecond",
+          "display": "1.7 s"
+        },
+        "total-blocking-time": {
+          "value": 91,
+          "unit": "millisecond",
+          "display": "90 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0.023665627049249,
+          "unit": "unitless",
+          "display": "0.024"
+        }
+      },
+      "warnings": []
+    },
+    "desktop": {
+      "lighthouseVersion": "13.5.0",
+      "fetchTime": "2026-10-27T13:21:53.140Z",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66
+      },
+      "metrics": {
+        "first-contentful-paint": {
+          "value": 416.98015,
+          "unit": "millisecond",
+          "display": "0.4 s"
+        },
+        "largest-contentful-paint": {
+          "value": 589.3201,
+          "unit": "millisecond",
+          "display": "0.6 s"
+        },
+        "speed-index": {
+          "value": 439.551927166616,
+          "unit": "millisecond",
+          "display": "0.4 s"
+        },
+        "total-blocking-time": {
+          "value": 0,
+          "unit": "millisecond",
+          "display": "0 ms"
+        },
+        "cumulative-layout-shift": {
+          "value": 0.001499907273599848,
+          "unit": "unitless",
+          "display": "0.001"
+        }
+      },
+      "warnings": []
+    }
+  }
+}
