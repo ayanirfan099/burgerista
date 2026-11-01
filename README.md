@@ -2,6 +2,11 @@
 
 An independent, German-language interactive restaurant redesign concept, implemented in the existing `ayanirfan099/burgerista` repository. Not an authorized brand website or an ordering platform.
 
+[![CI](https://github.com/ayanirfan099/burgerista/actions/workflows/ci.yml/badge.svg)](https://github.com/ayanirfan099/burgerista/actions/workflows/ci.yml)
+
+![Existing desktop capture of the unaffiliated restaurant concept](docs/screenshots/desktop.png)
+
+
 ## Start
 
 Node.js 22 or 24 LTS and npm are recommended. Validated with Node 24.19.0 and npm 11.9.0.
