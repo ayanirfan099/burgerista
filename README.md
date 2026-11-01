@@ -1,4 +1,4 @@
-# BURGERISTA — Wir leben Burger
+# BURGERISTA — Interactive Restaurant Concept
 
 An independent, German-language interactive restaurant redesign concept, implemented in the existing `ayanirfan099/burgerista` repository. Not an authorized brand website or an ordering platform.
 
